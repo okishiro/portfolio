@@ -3,8 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio</title>
+    <title>Minimal Portfolio</title>
     <style>
+        :root {
+            --bg: #0a0a0a;
+            --line: #222;
+            --text: #fff;
+            --text-dim: #555;
+            --transition: 0.9s cubic-bezier(0.85, 0, 0.15, 1);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,571 +20,151 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', sans-serif;
-            background: #000;
-            color: #fff;
+            font-family: 'Inter', -apple-system, system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
             overflow: hidden;
             height: 100vh;
+            -webkit-font-smoothing: antialiased;
         }
 
-        .container {
+        /* The Grid Lines */
+        .grid-container {
             display: flex;
             height: 100vh;
+            width: 100vw;
             position: relative;
         }
 
         .section {
             position: relative;
-            cursor: pointer;
-            overflow: hidden;
-            transition: flex 0.8s cubic-bezier(0.76, 0, 0.24, 1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0) 100%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .section:hover:not(.active)::before {
-            opacity: 1;
-        }
-
-        .divider {
-            position: absolute;
-            background: #fff;
-            z-index: 10;
-            transition: all 0.8s cubic-bezier(0.76, 0, 0.24, 1);
-        }
-
-        .divider.vertical {
-            width: 1px;
-            height: 100%;
-            top: 0;
-        }
-
-        .divider.horizontal {
-            height: 1px;
-            width: 100%;
-            left: 0;
-        }
-
-        #divider1 { left: 33.33%; }
-        #divider2 { left: 66.66%; }
-
-        .section.inactive {
             flex: 1;
-        }
-
-        .section.active {
-            flex: 4;
-        }
-
-        .section-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.8s cubic-bezier(0.76, 0, 0.24, 1);
+            cursor: pointer;
+            transition: flex var(--transition);
+            border-right: 1px solid var(--line);
         }
 
-        .section-title {
-            font-size: 5vw;
-            font-weight: 700;
-            letter-spacing: -0.03em;
+        .section:last-child {
+            border-right: none;
+        }
+
+        /* Typography Styles */
+        .title {
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 0.4em;
             text-transform: uppercase;
-            transition: all 0.8s cubic-bezier(0.76, 0, 0.24, 1);
-            position: relative;
+            transition: all var(--transition);
+            white-space: nowrap;
+            color: var(--text-dim);
             z-index: 2;
         }
 
-        .section.inactive .section-title {
-            font-size: 2rem;
-            writing-mode: vertical-rl;
-            text-orientation: mixed;
-            transform: rotate(180deg);
+        /* Active State */
+        .section.active {
+            flex: 6;
+            cursor: default;
         }
 
-        .section.active .section-title {
+        .section.active .title {
+            color: var(--text);
+            font-size: 0.85rem;
             position: absolute;
-            top: 50px;
-            left: 60px;
-            font-size: 3.5rem;
-            writing-mode: horizontal-tb;
-            transform: none;
+            top: 40px;
+            left: 40px;
+            letter-spacing: 0.6em;
         }
 
-        .section-content {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            padding: 180px 60px 60px;
+        /* Content Placeholder */
+        .content {
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.8s cubic-bezier(0.76, 0, 0.24, 1) 0.2s;
-            overflow-y: auto;
-            overflow-x: hidden;
-        }
-
-        .section.active .section-content {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .content-block {
-            max-width: 800px;
-            margin-bottom: 60px;
-            animation: slideUp 0.8s cubic-bezier(0.76, 0, 0.24, 1) forwards;
-            opacity: 0;
-        }
-
-        @keyframes slideUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .section.active .content-block {
-            transform: translateY(30px);
-        }
-
-        .section.active .content-block:nth-child(1) { animation-delay: 0.3s; }
-        .section.active .content-block:nth-child(2) { animation-delay: 0.4s; }
-        .section.active .content-block:nth-child(3) { animation-delay: 0.5s; }
-        .section.active .content-block:nth-child(4) { animation-delay: 0.6s; }
-        .section.active .content-block:nth-child(5) { animation-delay: 0.7s; }
-
-        .content-block h2 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-            font-weight: 600;
-            letter-spacing: -0.02em;
-        }
-
-        .content-block p {
-            font-size: 1.125rem;
-            line-height: 1.7;
-            color: #aaa;
-            margin-bottom: 15px;
-        }
-
-        .project-item, .skill-item {
-            padding: 30px 0;
-            border-bottom: 1px solid #222;
-            transition: all 0.3s ease;
-        }
-
-        .project-item:hover, .skill-item:hover {
-            padding-left: 20px;
-            border-bottom-color: #fff;
-        }
-
-        .project-item h3, .skill-item h3 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .project-item p, .skill-item p {
-            color: #888;
-            font-size: 1rem;
-        }
-
-        .tag {
-            display: inline-block;
-            padding: 8px 16px;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 20px;
-            margin: 5px 5px 5px 0;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-
-        .tag:hover {
-            background: rgba(255,255,255,0.2);
-            border-color: rgba(255,255,255,0.4);
-        }
-
-        #work { background: #000; }
-        #about { background: #050505; }
-        #fun { background: #0a0a0a; }
-
-        .noise {
-            position: fixed;
-            top: 0;
-            left: 0;
+            transition: opacity 0.5s ease;
+            padding: 100px 40px;
             width: 100%;
             height: 100%;
-            pointer-events: none;
-            opacity: 0.03;
-            z-index: 1000;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' /%3E%3C/svg%3E");
         }
 
-        /* Mobile styles */
+        .section.active .content {
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 1s var(--transition) 0.4s;
+        }
+
+        /* Hover Effect for Inactive */
+        .section:hover:not(.active) .title {
+            color: var(--text);
+            letter-spacing: 0.6em;
+        }
+
+        /* Mobile Adjustments */
         @media (max-width: 768px) {
-            .container {
+            .grid-container {
                 flex-direction: column;
             }
-
-            .divider.vertical {
-                display: none;
+            .section {
+                border-right: none;
+                border-bottom: 1px solid var(--line);
             }
-
-            .divider.horizontal {
-                display: block;
-            }
-
-            #divider1 {
-                left: 0;
-                top: 33.33%;
-            }
-
-            #divider2 {
-                left: 0;
-                top: 66.66%;
-            }
-
-            .section-title {
-                font-size: 12vw;
-            }
-
-            .section.inactive .section-title {
-                font-size: 2.5rem;
-                writing-mode: horizontal-tb;
-                transform: none;
-            }
-
-            .section.active .section-title {
-                font-size: 2.5rem;
+            .section.active .title {
                 top: 30px;
                 left: 30px;
             }
-
-            .section-content {
-                padding: 120px 30px 40px;
-            }
-
-            .content-block h2 {
-                font-size: 1.5rem;
-            }
-
-            .content-block p {
-                font-size: 1rem;
-            }
-
-            .project-item h3 {
-                font-size: 1.25rem;
-            }
         }
 
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #333;
-            border-radius: 3px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
-
-        .cursor-dot {
-            width: 8px;
-            height: 8px;
-            background: #fff;
-            border-radius: 50%;
+        /* Subtle Noise Overlay */
+        .noise {
             position: fixed;
+            inset: 0;
             pointer-events: none;
-            z-index: 10000;
-            transition: transform 0.2s ease;
-            mix-blend-mode: difference;
-        }
-
-        .cursor-outline {
-            width: 30px;
-            height: 30px;
-            border: 1px solid #fff;
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            transition: all 0.15s ease;
-            mix-blend-mode: difference;
+            opacity: 0.015;
+            z-index: 10;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' /%3E%3C/svg%3E");
         }
     </style>
 </head>
 <body>
     <div class="noise"></div>
-    <div class="cursor-dot" id="cursorDot"></div>
-    <div class="cursor-outline" id="cursorOutline"></div>
 
-    <div class="container" id="container">
-        <div class="divider vertical" id="divider1"></div>
-        <div class="divider vertical" id="divider2"></div>
-        <div class="divider horizontal" id="divider1" style="display: none;"></div>
-        <div class="divider horizontal" id="divider2" style="display: none;"></div>
-
-        <div class="section inactive" id="work">
-            <div class="section-inner">
-                <h1 class="section-title">Work</h1>
-                <div class="section-content">
-                    <div class="content-block">
-                        <h2>Selected Projects</h2>
-                        <p>A curated collection of work that pushes boundaries and solves real problems.</p>
-                    </div>
-
-                    <div class="content-block">
-                        <div class="project-item">
-                            <h3>Enterprise Dashboard Redesign</h3>
-                            <p>Led complete overhaul of analytics platform, resulting in 45% increase in user engagement and 60% reduction in support tickets.</p>
-                            <div style="margin-top: 15px;">
-                                <span class="tag">UX Research</span>
-                                <span class="tag">Interface Design</span>
-                                <span class="tag">Prototyping</span>
-                            </div>
-                        </div>
-
-                        <div class="project-item">
-                            <h3>Mobile Banking App</h3>
-                            <p>Designed intuitive mobile experience for fintech startup. Achieved 4.8★ rating with 200K+ downloads in first quarter.</p>
-                            <div style="margin-top: 15px;">
-                                <span class="tag">Mobile Design</span>
-                                <span class="tag">User Testing</span>
-                                <span class="tag">Animation</span>
-                            </div>
-                        </div>
-
-                        <div class="project-item">
-                            <h3>Design System Architecture</h3>
-                            <p>Built comprehensive design system used across 8 product teams, reducing design-to-development time by 40%.</p>
-                            <div style="margin-top: 15px;">
-                                <span class="tag">Systems Design</span>
-                                <span class="tag">Documentation</span>
-                                <span class="tag">Component Library</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="content-block">
-                        <h2>Experience</h2>
-                        <div class="project-item">
-                            <h3>Senior Product Designer — TechCorp</h3>
-                            <p>2022 - Present · Leading design initiatives for B2B SaaS products serving 50K+ users</p>
-                        </div>
-                        <div class="project-item">
-                            <h3>Product Designer — StartupXYZ</h3>
-                            <p>2020 - 2022 · Shaped product vision and design strategy from seed to Series A</p>
-                        </div>
-                        <div class="project-item" style="border-bottom: none;">
-                            <h3>Freelance Designer</h3>
-                            <p>2018 - 2020 · Collaborated with agencies and direct clients on brand and digital projects</p>
-                        </div>
-                    </div>
+    <div class="grid-container">
+        <section class="section" id="work" onclick="activate(this)">
+            <span class="title">Work</span>
+            <div class="content">
                 </div>
-            </div>
-        </div>
+        </section>
 
-        <div class="section inactive" id="about">
-            <div class="section-inner">
-                <h1 class="section-title">About</h1>
-                <div class="section-content">
-                    <div class="content-block">
-                        <h2>Hello, I'm Alex.</h2>
-                        <p>A product designer and creative technologist obsessed with crafting experiences that feel magical yet make perfect sense.</p>
-                        <p>I believe design is about solving problems elegantly—where form and function dance together in perfect harmony. Every pixel, every interaction, every decision should serve a purpose.</p>
-                    </div>
-
-                    <div class="content-block">
-                        <h2>What I Do</h2>
-                        <p>I specialize in transforming complex problems into elegant solutions. My work spans digital product design, design systems, and creative direction. I thrive at the intersection of strategy, design, and technology.</p>
-                        <p>My approach combines rigorous user research with bold creative vision. I believe the best products are built on deep understanding of human behavior, backed by data, and elevated by thoughtful craft.</p>
-                    </div>
-
-                    <div class="content-block">
-                        <h2>Skills & Expertise</h2>
-                        <div class="skill-item">
-                            <h3>Product Design</h3>
-                            <p>End-to-end product design from research and strategy to high-fidelity mockups and prototypes</p>
-                        </div>
-                        <div class="skill-item">
-                            <h3>Design Systems</h3>
-                            <p>Building scalable design systems that empower teams and maintain consistency</p>
-                        </div>
-                        <div class="skill-item">
-                            <h3>User Research</h3>
-                            <p>Qualitative and quantitative research methods to uncover insights and validate decisions</p>
-                        </div>
-                        <div class="skill-item" style="border-bottom: none;">
-                            <h3>Creative Direction</h3>
-                            <p>Leading design vision and collaborating with cross-functional teams</p>
-                        </div>
-                    </div>
-
-                    <div class="content-block">
-                        <h2>Tools of Trade</h2>
-                        <p style="margin-bottom: 20px;">I work with industry-standard tools and adapt to whatever gets the job done best:</p>
-                        <span class="tag">Figma</span>
-                        <span class="tag">Adobe Creative Suite</span>
-                        <span class="tag">Principle</span>
-                        <span class="tag">Framer</span>
-                        <span class="tag">Sketch</span>
-                        <span class="tag">HTML/CSS</span>
-                        <span class="tag">JavaScript</span>
-                    </div>
+        <section class="section" id="about" onclick="activate(this)">
+            <span class="title">About</span>
+            <div class="content">
                 </div>
-            </div>
-        </div>
+        </section>
 
-        <div class="section inactive" id="fun">
-            <div class="section-inner">
-                <h1 class="section-title">Fun</h1>
-                <div class="section-content">
-                    <div class="content-block">
-                        <h2>Beyond Pixels</h2>
-                        <p>Life's too short to only work. Here's what fills my time when I'm not pushing pixels around.</p>
-                    </div>
-
-                    <div class="content-block">
-                        <h2>Photography</h2>
-                        <p>Street photography and urban landscapes are my escape. There's something meditative about wandering a city with a camera, finding beauty in the mundane. Shot on film whenever possible—there's no undo button in life.</p>
-                        <p>Currently shooting with a Leica M6 and slowly working through my Portra 400 stockpile.</p>
-                    </div>
-
-                    <div class="content-block">
-                        <h2>Coffee Obsession</h2>
-                        <p>What started as a necessity became a hobby. Now I can't walk past a specialty coffee shop without stopping. Home setup includes a Comandante grinder and far too many brewing methods.</p>
-                        <p>Currently exploring natural process Ethiopian coffees—the flavor complexity is unreal.</p>
-                    </div>
-
-                    <div class="content-block">
-                        <h2>Reading</h2>
-                        <p>Always have 3-4 books going: usually a mix of design, philosophy, sci-fi, and whatever catches my eye. Current favorites include anything by Ursula K. Le Guin and design philosophy from Dieter Rams.</p>
-                    </div>
-
-                    <div class="content-block">
-                        <h2>Side Projects</h2>
-                        <div class="project-item">
-                            <h3>Design Principles Blog</h3>
-                            <p>Writing about design thinking, creative process, and lessons learned</p>
-                        </div>
-                        <div class="project-item">
-                            <h3>Experimental Interfaces</h3>
-                            <p>Weekly coding experiments exploring interactive design and generative art</p>
-                        </div>
-                        <div class="project-item" style="border-bottom: none;">
-                            <h3>Photo Journal</h3>
-                            <p>Documenting urban architecture and street scenes on 35mm film</p>
-                        </div>
-                    </div>
-
-                    <div class="content-block">
-                        <h2>Let's Connect</h2>
-                        <p>Always happy to chat about design, grab coffee, or collaborate on interesting projects.</p>
-                        <p style="margin-top: 20px;">
-                            <span class="tag">hello@example.com</span>
-                            <span class="tag">@yourhandle</span>
-                            <span class="tag">LinkedIn</span>
-                        </p>
-                    </div>
+        <section class="section" id="fun" onclick="activate(this)">
+            <span class="title">Fun</span>
+            <div class="content">
                 </div>
-            </div>
-        </div>
+        </section>
     </div>
 
     <script>
-        let activeSection = null;
-        const cursorDot = document.getElementById('cursorDot');
-        const cursorOutline = document.getElementById('cursorOutline');
-
-        // Custom cursor
-        document.addEventListener('mousemove', (e) => {
-            cursorDot.style.left = e.clientX + 'px';
-            cursorDot.style.top = e.clientY + 'px';
+        function activate(element) {
+            const sections = document.querySelectorAll('.section');
             
-            setTimeout(() => {
-                cursorOutline.style.left = (e.clientX - 15) + 'px';
-                cursorOutline.style.top = (e.clientY - 15) + 'px';
-            }, 100);
-        });
+            // If already active, do nothing
+            if (element.classList.contains('active')) return;
 
-        document.querySelectorAll('.section').forEach(section => {
-            section.addEventListener('mouseenter', () => {
-                cursorOutline.style.transform = 'scale(1.5)';
+            sections.forEach(s => {
+                s.classList.remove('active');
             });
-            section.addEventListener('mouseleave', () => {
-                cursorOutline.style.transform = 'scale(1)';
-            });
-        });
 
-        const sections = document.querySelectorAll('.section');
-        
-        sections.forEach(section => {
-            section.addEventListener('click', function() {
-                const sectionId = this.id;
-                
-                if (activeSection === sectionId) return;
+            element.classList.add('active');
+        }
 
-                sections.forEach(s => {
-                    if (s.id === sectionId) {
-                        s.classList.remove('inactive');
-                        s.classList.add('active');
-                    } else {
-                        s.classList.remove('active');
-                        s.classList.add('inactive');
-                    }
-                });
-
-                // Update divider positions
-                const isMobile = window.innerWidth <= 768;
-                if (!isMobile) {
-                    if (sectionId === 'work') {
-                        document.getElementById('divider1').style.left = '66.66%';
-                        document.getElementById('divider2').style.left = '83.33%';
-                    } else if (sectionId === 'about') {
-                        document.getElementById('divider1').style.left = '16.66%';
-                        document.getElementById('divider2').style.left = '83.33%';
-                    } else {
-                        document.getElementById('divider1').style.left = '16.66%';
-                        document.getElementById('divider2').style.left = '33.33%';
-                    }
-                } else {
-                    if (sectionId === 'work') {
-                        document.querySelectorAll('#divider1')[1].style.top = '66.66%';
-                        document.querySelectorAll('#divider2')[1].style.top = '83.33%';
-                    } else if (sectionId === 'about') {
-                        document.querySelectorAll('#divider1')[1].style.top = '16.66%';
-                        document.querySelectorAll('#divider2')[1].style.top = '83.33%';
-                    } else {
-                        document.querySelectorAll('#divider1')[1].style.top = '16.66%';
-                        document.querySelectorAll('#divider2')[1].style.top = '33.33%';
-                    }
-                }
-
-                activeSection = sectionId;
-            });
-        });
+        // Initialize first section as active (Optional)
+        // document.getElementById('work').classList.add('active');
     </script>
 </body>
 </html>
