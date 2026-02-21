@@ -3,22 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minimal Portfolio</title>
+    <title>Harshit Singh</title>
     <style>
         :root {
             --bg: #0a0a0a;
             --line: #222;
             --text: #fff;
             --text-dim: #555;
+            --text-dimmer: #444;
             --transition: 0.9s cubic-bezier(0.85, 0, 0.15, 1);
         }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             font-family: 'Inter', -apple-system, system-ui, sans-serif;
             background: var(--bg);
@@ -27,7 +26,6 @@
             height: 100vh;
             -webkit-font-smoothing: antialiased;
         }
-
         /* The Grid Lines */
         .grid-container {
             display: flex;
@@ -35,7 +33,6 @@
             width: 100vw;
             position: relative;
         }
-
         .section {
             position: relative;
             flex: 1;
@@ -46,11 +43,9 @@
             transition: flex var(--transition);
             border-right: 1px solid var(--line);
         }
-
         .section:last-child {
             border-right: none;
         }
-
         /* Typography Styles */
         .title {
             font-size: 1rem;
@@ -62,13 +57,11 @@
             color: var(--text-dim);
             z-index: 2;
         }
-
         /* Active State */
         .section.active {
             flex: 6;
             cursor: default;
         }
-
         .section.active .title {
             color: var(--text);
             font-size: 0.85rem;
@@ -77,29 +70,132 @@
             left: 40px;
             letter-spacing: 0.6em;
         }
-
-        /* Content Placeholder */
+        /* Content */
         .content {
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.5s ease;
-            padding: 100px 40px;
+            padding: 120px 40px 40px;
             width: 100%;
             height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
         }
-
         .section.active .content {
             opacity: 1;
             visibility: visible;
             transition: opacity 1s var(--transition) 0.4s;
         }
-
+        
+        .content-wrapper {
+            max-width: 700px;
+        }
+        
+        .content h2 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 2rem;
+            color: var(--text);
+            letter-spacing: -0.02em;
+        }
+        
+        .content p {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--text-dim);
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+        
+        .project {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--line);
+        }
+        
+        .project:last-child {
+            border-bottom: none;
+        }
+        
+        .project h3 {
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin-bottom: 0.8rem;
+            color: var(--text);
+        }
+        
+        .project p {
+            font-size: 0.9rem;
+            color: var(--text-dimmer);
+            margin-bottom: 1rem;
+        }
+        
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-top: 1rem;
+        }
+        
+        .tag {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            padding: 0.4rem 0.8rem;
+            border: 1px solid var(--line);
+            border-radius: 2px;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+        }
+        
+        .tag:hover {
+            border-color: var(--text-dim);
+            color: var(--text);
+        }
+        
+        .skill-group {
+            margin-bottom: 2.5rem;
+        }
+        
+        .skill-group h3 {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: var(--text-dim);
+            margin-bottom: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        
+        .skill-group p {
+            font-size: 0.95rem;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+        
+        .github-link {
+            display: inline-block;
+            margin-top: 2rem;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            border: 1px solid var(--line);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+            letter-spacing: 0.1em;
+        }
+        
+        .github-link:hover {
+            border-color: var(--text);
+            color: var(--text);
+        }
+        
         /* Hover Effect for Inactive */
         .section:hover:not(.active) .title {
             color: var(--text);
             letter-spacing: 0.6em;
         }
-
+        
         /* Mobile Adjustments */
         @media (max-width: 768px) {
             .grid-container {
@@ -113,8 +209,29 @@
                 top: 30px;
                 left: 30px;
             }
+            .content {
+                padding: 100px 30px 30px;
+            }
         }
-
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--line);
+            border-radius: 2px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-dim);
+        }
+        
         /* Subtle Noise Overlay */
         .noise {
             position: fixed;
@@ -128,43 +245,102 @@
 </head>
 <body>
     <div class="noise"></div>
-
     <div class="grid-container">
         <section class="section" id="work" onclick="activate(this)">
             <span class="title">Work</span>
             <div class="content">
+                <div class="content-wrapper">
+                    <h2>Projects</h2>
+                    
+                    <div class="project">
+                        <h3>WhisperFlow API</h3>
+                        <p>Real-time transcription API using Whisper.cpp for on-device speech-to-text. Built concurrent audio processing with chunk segmentation, JSON streaming, and Bloom filter validation for secure access. Optimized for Apple Silicon.</p>
+                        <div class="tags">
+                            <span class="tag">Go</span>
+                            <span class="tag">Whisper.cpp</span>
+                            <span class="tag">FFmpeg</span>
+                            <span class="tag">Docker</span>
+                        </div>
+                    </div>
+                    
+                    <div class="project">
+                        <h3>Apollo</h3>
+                        <p>Movie database management system with RESTful API capabilities. Modular architecture with clean separation of concerns across command, internal logic, and storage layers.</p>
+                        <div class="tags">
+                            <span class="tag">Go</span>
+                            <span class="tag">SQLite</span>
+                            <span class="tag">REST API</span>
+                        </div>
+                    </div>
+                    
+                    <div class="project">
+                        <h3>Graph Algorithms Visualizer</h3>
+                        <p>Interactive visualization tool for understanding graph algorithms. Django backend enabling multiple algorithm applications on a single graph instance for learner comprehension.</p>
+                        <div class="tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">Django</span>
+                            <span class="tag">Algorithms</span>
+                        </div>
+                    </div>
                 </div>
+            </div>
         </section>
-
+        
         <section class="section" id="about" onclick="activate(this)">
             <span class="title">About</span>
             <div class="content">
+                <div class="content-wrapper">
+                    <h2>Harshit Singh</h2>
+                    <p>Developer focused on backend systems, applied AI, and algorithmic problem-solving. Building scalable web platforms and contributing to open-source.</p>
+                    
+                    <div class="skill-group">
+                        <h3>Languages</h3>
+                        <p>Go, Python, C++</p>
+                    </div>
+                    
+                    <div class="skill-group">
+                        <h3>Backend</h3>
+                        <p>REST APIs, PostgreSQL, SQLite, Firebase, Django</p>
+                    </div>
+                    
+                    <div class="skill-group">
+                        <h3>Tools</h3>
+                        <p>Docker, Git, Linux, React</p>
+                    </div>
+                    
+                    <div class="skill-group">
+                        <h3>Interests</h3>
+                        <p>Backend Development, Microservices, LLMs, DevOps</p>
+                    </div>
+                    
+                    <a href="https://github.com/yourusername" class="github-link" target="_blank">GitHub</a>
                 </div>
+            </div>
         </section>
-
+        
         <section class="section" id="fun" onclick="activate(this)">
             <span class="title">Fun</span>
             <div class="content">
+                <div class="content-wrapper">
+                    <h2>Beyond Code</h2>
                 </div>
+            </div>
         </section>
     </div>
-
+    
     <script>
         function activate(element) {
             const sections = document.querySelectorAll('.section');
             
             // If already active, do nothing
             if (element.classList.contains('active')) return;
-
+            
             sections.forEach(s => {
                 s.classList.remove('active');
             });
-
+            
             element.classList.add('active');
         }
-
-        // Initialize first section as active (Optional)
-        // document.getElementById('work').classList.add('active');
     </script>
 </body>
 </html>
