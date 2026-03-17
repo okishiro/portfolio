@@ -1,283 +1,401 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Harshit Singh</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-<style>
-:root {
-    --bg: #0a0a0a;
-    --line: #222;
-    --text: #ffffff;
-    --text-soft: #b3b3b3;
-    --text-muted: #888;
-    --transition: 0.6s ease;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Inter', system-ui, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    height: 100vh;
-    overflow: hidden;
-    font-size: 16px;
-    line-height: 1.6;
-}
-
-/* Layout */
-.grid-container {
-    display: flex;
-    height: 100vh;
-}
-
-.section {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-right: 1px solid var(--line);
-    cursor: pointer;
-    position: relative;
-    transition: flex var(--transition);
-}
-
-.section:last-child {
-    border-right: none;
-}
-
-/* Titles */
-.title {
-    font-size: 1rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    transition: var(--transition);
-}
-
-/* Active */
-.section.active {
-    flex: 5;
-    cursor: default;
-}
-
-.section.active .title {
-    position: absolute;
-    top: 30px;
-    left: 30px;
-    font-size: 0.9rem;
-    letter-spacing: 0.3em;
-    color: var(--text);
-}
-
-/* Content */
-.content {
-    opacity: 0;
-    visibility: hidden;
-    padding: 100px 40px 40px;
-    width: 100%;
-    height: 100%;
-    overflow-y: auto;
-    transition: opacity 0.4s ease;
-}
-
-.section.active .content {
-    opacity: 1;
-    visibility: visible;
-}
-
-.content-wrapper {
-    max-width: 680px;
-}
-
-/* Typography */
-h2 {
-    font-size: 1.8rem;
-    font-weight: 500;
-    margin-bottom: 1.5rem;
-}
-
-h3 {
-    font-size: 1.1rem;
-    font-weight: 500;
-    margin-bottom: 0.6rem;
-}
-
-p {
-    font-size: 1rem;
-    color: var(--text-soft);
-    margin-bottom: 1.2rem;
-}
-
-/* Projects */
-.project {
-    margin-bottom: 2.5rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid var(--line);
-}
-
-.tags {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-}
-
-.tag {
-    font-size: 0.75rem;
-    padding: 4px 8px;
-    border: 1px solid var(--line);
-    color: var(--text-muted);
-}
-
-/* Skills */
-.skill-group {
-    margin-bottom: 2rem;
-}
-
-.skill-group h3 {
-    font-size: 0.85rem;
-    letter-spacing: 0.1em;
-    color: var(--text-muted);
-    text-transform: uppercase;
-}
-
-/* Link */
-.github-link {
-    display: inline-block;
-    margin-top: 1.5rem;
-    padding: 10px 16px;
-    border: 1px solid var(--line);
-    font-size: 0.85rem;
-    color: var(--text-soft);
-    text-decoration: none;
-}
-
-.github-link:hover {
-    color: var(--text);
-    border-color: var(--text);
-}
-
-/* Hover */
-.section:hover:not(.active) .title {
-    color: var(--text);
-}
-
-/* Mobile */
-@media (max-width: 768px) {
-    .grid-container {
-        flex-direction: column;
-    }
-    .section {
-        border-right: none;
-        border-bottom: 1px solid var(--line);
-    }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harshit Singh</title>
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --line: #222;
+            --text: #fff;
+            --text-dim: #555;
+            --text-dimmer: #444;
+            --transition: 0.9s cubic-bezier(0.85, 0, 0.15, 1);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', -apple-system, system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+            height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+        /* The Grid Lines */
+        .grid-container {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+        }
+        .section {
+            position: relative;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: flex var(--transition);
+            border-right: 1px solid var(--line);
+        }
+        .section:last-child {
+            border-right: none;
+        }
+        /* Typography Styles */
+        .title {
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            transition: all var(--transition);
+            white-space: nowrap;
+            color: var(--text-dim);
+            z-index: 2;
+        }
+        /* Active State */
+        .section.active {
+            flex: 6;
+            cursor: default;
+        }
+        .section.active .title {
+            color: var(--text);
+            font-size: 0.85rem;
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            letter-spacing: 0.6em;
+        }
+        /* Content */
+        .content {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease;
+            padding: 120px 50px 50px 50px;
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        .section.active .content {
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 1s var(--transition) 0.4s;
+        }
+        
+        .content-wrapper {
+            max-width: 750px;
+        }
+        
+        .content h2 {
+            font-size: 2rem;
+            font-weight: 500;
+            margin-bottom: 2.5rem;
+            color: var(--text);
+            letter-spacing: -0.01em;
+            line-height: 1.2;
+        }
+        
+        .intro-text {
+            font-size: 1rem;
+            line-height: 1.9;
+            color: var(--text-dim);
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+        }
+        
+        .project {
+            margin-bottom: 4rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid var(--line);
+        }
+        
+        .project:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .project h3 {
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+            letter-spacing: -0.01em;
+        }
+        
+        .project-meta {
+            font-size: 0.85rem;
+            color: var(--text-dimmer);
+            margin-bottom: 1rem;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+        }
+        
+        .project p {
+            font-size: 0.95rem;
+            line-height: 1.85;
+            color: var(--text-dim);
+            margin-bottom: 1.3rem;
+            font-weight: 300;
+        }
+        
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+            margin-top: 1.3rem;
+        }
+        
+        .tag {
+            font-size: 0.8rem;
+            color: var(--text-dimmer);
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--line);
+            border-radius: 3px;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.02);
+        }
+        
+        .tag:hover {
+            border-color: var(--text-dim);
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .divider {
+            height: 1px;
+            background: var(--line);
+            margin: 2.5rem 0;
+        }
+        
+        .skill-group {
+            margin-bottom: 2.2rem;
+        }
+        
+        .skill-group h3 {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-dim);
+            margin-bottom: 0.8rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+        
+        .skill-group p {
+            font-size: 0.95rem;
+            color: var(--text);
+            margin-bottom: 0.4rem;
+            line-height: 1.7;
+            font-weight: 400;
+        }
+        
+        .github-link {
+            display: inline-block;
+            margin-top: 2.5rem;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            text-decoration: none;
+            padding: 0.9rem 2rem;
+            border: 1px solid var(--line);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+            letter-spacing: 0.08em;
+            font-weight: 500;
+        }
+        
+        .github-link:hover {
+            border-color: var(--text);
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        /* Hover Effect for Inactive */
+        .section:hover:not(.active) .title {
+            color: var(--text);
+            letter-spacing: 0.6em;
+        }
+        
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .grid-container {
+                flex-direction: column;
+            }
+            .section {
+                border-right: none;
+                border-bottom: 1px solid var(--line);
+            }
+            .section.active .title {
+                top: 30px;
+                left: 30px;
+            }
+            .content {
+                padding: 100px 30px 30px;
+            }
+            .content-wrapper {
+                max-width: 100%;
+            }
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--line);
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-dim);
+        }
+        
+        /* Subtle Noise Overlay */
+        .noise {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.015;
+            z-index: 10;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' /%3E%3C/svg%3E");
+        }
+    </style>
 </head>
-
 <body>
-
-<div class="grid-container">
-
-<section class="section" onclick="activate(this)">
-<span class="title">Work</span>
-
-<div class="content">
-<div class="content-wrapper">
-
-<h2>Projects</h2>
-
-<div class="project">
-<h3>WhisperFlow API</h3>
-<p>Real-time transcription API using Whisper.cpp with efficient audio chunking and streaming.</p>
-<div class="tags">
-<span class="tag">Go</span>
-<span class="tag">Docker</span>
-<span class="tag">FFmpeg</span>
-</div>
-</div>
-
-<div class="project">
-<h3>Apollo</h3>
-<p>Modular movie database system with REST API and clean architecture.</p>
-<div class="tags">
-<span class="tag">Go</span>
-<span class="tag">SQLite</span>
-</div>
-</div>
-
-<div class="project">
-<h3>Graph Visualizer</h3>
-<p>Interactive tool to visualize algorithms using Django backend.</p>
-<div class="tags">
-<span class="tag">Python</span>
-<span class="tag">Django</span>
-</div>
-</div>
-
-</div>
-</div>
-</section>
-
-<section class="section" onclick="activate(this)">
-<span class="title">About</span>
-
-<div class="content">
-<div class="content-wrapper">
-
-<h2>Harshit Singh</h2>
-<p>Backend developer focused on scalable systems, APIs, and applied AI.</p>
-
-<div class="skill-group">
-<h3>Languages</h3>
-<p>Go, Python, C++</p>
-</div>
-
-<div class="skill-group">
-<h3>Backend</h3>
-<p>REST APIs, PostgreSQL, Django</p>
-</div>
-
-<div class="skill-group">
-<h3>Tools</h3>
-<p>Docker, Git, Linux</p>
-</div>
-
-<a href="https://github.com/okishiro" target="_blank" class="github-link">
-GitHub
-</a>
-
-</div>
-</div>
-</section>
-
-<section class="section" onclick="activate(this)">
-<span class="title">Fun</span>
-
-<div class="content">
-<div class="content-wrapper">
-<h2>Beyond Code</h2>
-<p>Exploring ideas, building things, and learning continuously.</p>
-</div>
-</div>
-</section>
-
-</div>
-
-<script>
-function activate(el) {
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    el.classList.add('active');
-}
-</script>
-
+    <div class="noise"></div>
+    <div class="grid-container">
+        <section class="section active" id="work" onclick="activate(this)">
+            <span class="title">Work</span>
+            <div class="content">
+                <div class="content-wrapper">
+                    <h2>Featured Projects</h2>
+                    
+                    <div class="project">
+                        <h3>WhisperFlow API</h3>
+                        <p class="project-meta">Real-time Speech-to-Text Transcription Service</p>
+                        <p>High-performance transcription API leveraging Whisper.cpp for on-device speech recognition. Implements sophisticated concurrent audio processing with intelligent chunk segmentation, real-time JSON streaming, and cryptographic Bloom filter validation for secure API access. Fully optimized for Apple Silicon and production deployments.</p>
+                        <div class="tags">
+                            <span class="tag">Go</span>
+                            <span class="tag">Whisper.cpp</span>
+                            <span class="tag">FFmpeg</span>
+                            <span class="tag">Docker</span>
+                            <span class="tag">Concurrent Processing</span>
+                        </div>
+                    </div>
+                    
+                    <div class="project">
+                        <h3>Apollo</h3>
+                        <p class="project-meta">Scalable Movie Database Management System</p>
+                        <p>Comprehensive movie database platform with full-featured RESTful API. Demonstrates clean architecture principles with strict separation of concerns across command handling, business logic, and data persistence layers. Built for extensibility and serves as a reference implementation for modular Go applications.</p>
+                        <div class="tags">
+                            <span class="tag">Go</span>
+                            <span class="tag">SQLite</span>
+                            <span class="tag">REST API</span>
+                            <span class="tag">Clean Architecture</span>
+                        </div>
+                    </div>
+                    
+                    <div class="project">
+                        <h3>Graph Algorithms Visualizer</h3>
+                        <p class="project-meta">Interactive Educational Visualization Platform</p>
+                        <p>Dynamic visualization tool designed to demystify complex graph algorithms through interactive visual feedback. Django-powered backend enables students to apply multiple algorithms simultaneously on a single graph instance, facilitating deeper algorithmic comprehension and practical understanding of data structures.</p>
+                        <div class="tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">Django</span>
+                            <span class="tag">Algorithms</span>
+                            <span class="tag">Graph Theory</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="section" id="about" onclick="activate(this)">
+            <span class="title">About</span>
+            <div class="content">
+                <div class="content-wrapper">
+                    <h2>Harshit Singh</h2>
+                    <p class="intro-text">Backend engineer and systems architect passionate about building scalable, efficient systems. Deep expertise in API design, database optimization, and algorithmic problem-solving. Committed to clean code, open-source contribution, and exploring the intersection of AI and backend engineering.</p>
+                    
+                    <div class="divider"></div>
+                    
+                    <div class="skill-group">
+                        <h3>Programming Languages</h3>
+                        <p>Go • Python • C++</p>
+                    </div>
+                    
+                    <div class="skill-group">
+                        <h3>Backend & Databases</h3>
+                        <p>REST APIs • PostgreSQL • SQLite • Firebase • Django • Microservices • System Design</p>
+                    </div>
+                    
+                    <div class="skill-group">
+                        <h3>DevOps & Infrastructure</h3>
+                        <p>Docker • Docker Compose • Git • Linux • CI/CD Pipelines • Container Orchestration</p>
+                    </div>
+                    
+                    <div class="skill-group">
+                        <h3>Core Interests</h3>
+                        <p>Distributed Systems • Backend Architecture • LLMs & AI Integration • DevOps • Real-time Systems</p>
+                    </div>
+                    
+                    <a href="https://github.com/okishiro" class="github-link" target="_blank">Visit GitHub Profile</a>
+                </div>
+            </div>
+        </section>
+        
+        <section class="section" id="focus" onclick="activate(this)">
+            <span class="title">Focus</span>
+            <div class="content">
+                <div class="content-wrapper">
+                    <h2>Areas of Focus</h2>
+                    <p class="intro-text">Specializing in building robust, scalable backend systems with emphasis on code quality, performance optimization, and architectural excellence. Currently exploring advanced topics in distributed systems and applied AI integration.</p>
+                    
+                    <div class="divider"></div>
+                    
+                    <div class="skill-group">
+                        <h3>Technical Expertise</h3>
+                        <p>API design and implementation • Database optimization • System scalability • Concurrent programming • Real-time data processing</p>
+                    </div>
+                    
+                    <div class="skill-group">
+                        <h3>Development Practices</h3>
+                        <p>Test-driven development • Clean code principles • SOLID design patterns • Microservices architecture • Code review and mentoring</p>
+                    </div>
+                    
+                    <div class="skill-group">
+                        <h3>Current Exploration</h3>
+                        <p>Distributed systems design • LLM integration in backend services • Advanced Go patterns • Cloud-native applications • Open-source development</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <script>
+        function activate(element) {
+            const sections = document.querySelectorAll('.section');
+            
+            // If already active, do nothing
+            if (element.classList.contains('active')) return;
+            
+            sections.forEach(s => {
+                s.classList.remove('active');
+            });
+            
+            element.classList.add('active');
+        }
+    </script>
 </body>
 </html>
